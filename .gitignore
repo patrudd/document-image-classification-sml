@@ -6,6 +6,8 @@ data/*
 # Checkpoint/model besar
 models/*
 !models/.gitkeep
+!models/README.md
+!models/model_metadata.json
 checkpoints/
 checkpoint/
 *.pt
@@ -26,6 +28,8 @@ submissions/*.csv
 !reports/figures/confusion_matrix.png
 !reports/figures/learning_curves.png
 !submissions/.gitkeep
+!submissions/README.md
+!submissions/submission_convnext_tiny_public_0.86407.csv
 
 # OS/editor
 .DS_Store

@@ -37,6 +37,8 @@ document-image-classification/
 ├── .gitignore
 ├── data/                         # tidak di-commit
 ├── models/                       # checkpoint besar tidak di-commit
+│   ├── README.md                 # cara memperoleh checkpoint
+│   └── model_metadata.json       # ukuran, skor, dan SHA-256 model
 ├── notebooks/
 │   ├── 01_end_to_end_kaggle.py
 │   └── 01_end_to_end_kaggle.ipynb    # versi tereksekusi
@@ -55,6 +57,8 @@ document-image-classification/
 │       ├── confusion_matrix.png
 │       └── learning_curves.png
 └── submissions/
+    ├── README.md
+    └── submission_convnext_tiny_public_0.86407.csv
 ```
 
 ## Data
@@ -100,11 +104,12 @@ python -m scripts.predict --data-dir data --checkpoint models/convnext_tiny_best
 
 Output penting:
 
-- `models/convnext_tiny_best.pt`: bobot model terbaik + konfigurasi + riwayat training.
+- `models/convnext_tiny_best.pt`: bobot model terbaik + konfigurasi + riwayat training. Karena berukuran sekitar 106 MiB, file tersedia melalui [GitHub Release v1.0-kaggle](https://github.com/patrudd/document-image-classification-sml/releases/tag/v1.0-kaggle), bukan riwayat Git.
 - `reports/validation_metrics.json`: konfigurasi hasil, classification report, dan learning history.
 - `reports/figures/confusion_matrix.png`: pola prediksi benar dan pasangan kelas yang tertukar.
 - `reports/figures/learning_curves.png`: perbandingan loss/accuracy train dan validation.
 - `submissions/submission_convnext.csv`: output default dari `scripts.predict` untuk eksekusi lokal.
+- `submissions/submission_convnext_tiny_public_0.86407.csv`: submission terverifikasi yang memperoleh public score 0,86407.
 - `/kaggle/working/submission_convnext_tiny.csv`: file notebook yang telah dinilai Kaggle.
 
 ## Menjalankan di Kaggle

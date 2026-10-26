@@ -1,0 +1,14 @@
+{
+  "artifact_name": "convnext_tiny_best.pt",
+  "architecture": "ConvNeXt-Tiny",
+  "framework": "PyTorch",
+  "pretraining": "ImageNet",
+  "num_classes": 16,
+  "image_size": 224,
+  "best_epoch": 8,
+  "validation_accuracy": 0.8583628410747761,
+  "public_leaderboard_accuracy": 0.86407,
+  "size_bytes": 111399911,
+  "sha256": "e2cc9ee9b6453c134ef5c77fcee1c756030cbc3a019cde8b1aae7d18cb7ea829",
+  "release_url": "https://github.com/patrudd/document-image-classification-sml/releases/tag/v1.0-kaggle"
+}
