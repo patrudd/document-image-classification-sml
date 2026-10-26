@@ -322,41 +322,48 @@ def run_epoch(model: nn.Module, loader: DataLoader, training: bool) -> tuple[flo
     return total_loss / sample_count, accuracy_score(targets, predictions), targets, predictions
 
 
-history = []
-best_accuracy, stale_epochs = -1.0, 0
-for epoch in range(1, CFG.epochs + 1):
-    train_loss, train_accuracy, _, _ = run_epoch(model, train_loader, training=True)
-    val_loss, val_accuracy, _, _ = run_epoch(model, val_loader, training=False)
-    scheduler.step()
-    row = {
-        "epoch": epoch,
-        "train_loss": train_loss,
-        "train_accuracy": train_accuracy,
-        "val_loss": val_loss,
-        "val_accuracy": val_accuracy,
-    }
-    history.append(row)
-    print(
-        f"Epoch {epoch:02d} | train loss/acc={train_loss:.4f}/{train_accuracy:.4f} | "
-        f"val loss/acc={val_loss:.4f}/{val_accuracy:.4f}"
-    )
-    if val_accuracy > best_accuracy:
-        best_accuracy, stale_epochs = val_accuracy, 0
-        torch.save(
-            {
-                "model_state": model.state_dict(),
-                "config": asdict(CFG),
-                "best_val_accuracy": best_accuracy,
-                "history": history,
-                "class_names": class_table["class_name"].tolist(),
-            },
-            CHECKPOINT_PATH,
+if CHECKPOINT_PATH.exists():
+    checkpoint = torch.load(CHECKPOINT_PATH, map_location=DEVICE, weights_only=False)
+    model.load_state_dict(checkpoint["model_state"])
+    history = checkpoint["history"]
+    best_accuracy = float(checkpoint["best_val_accuracy"])
+    print(f"Menggunakan checkpoint yang tersedia ({len(history)} epoch).")
+else:
+    history = []
+    best_accuracy, stale_epochs = -1.0, 0
+    for epoch in range(1, CFG.epochs + 1):
+        train_loss, train_accuracy, _, _ = run_epoch(model, train_loader, training=True)
+        val_loss, val_accuracy, _, _ = run_epoch(model, val_loader, training=False)
+        scheduler.step()
+        row = {
+            "epoch": epoch,
+            "train_loss": train_loss,
+            "train_accuracy": train_accuracy,
+            "val_loss": val_loss,
+            "val_accuracy": val_accuracy,
+        }
+        history.append(row)
+        print(
+            f"Epoch {epoch:02d} | train loss/acc={train_loss:.4f}/{train_accuracy:.4f} | "
+            f"val loss/acc={val_loss:.4f}/{val_accuracy:.4f}"
         )
-    else:
-        stale_epochs += 1
-        if stale_epochs >= CFG.patience:
-            print("Early stopping.")
-            break
+        if val_accuracy > best_accuracy:
+            best_accuracy, stale_epochs = val_accuracy, 0
+            torch.save(
+                {
+                    "model_state": model.state_dict(),
+                    "config": asdict(CFG),
+                    "best_val_accuracy": best_accuracy,
+                    "history": history,
+                    "class_names": class_table["class_name"].tolist(),
+                },
+                CHECKPOINT_PATH,
+            )
+        else:
+            stale_epochs += 1
+            if stale_epochs >= CFG.patience:
+                print("Early stopping.")
+                break
 
 print("Best validation accuracy:", best_accuracy)
 print("Checkpoint:", CHECKPOINT_PATH)
