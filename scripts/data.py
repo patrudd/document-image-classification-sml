@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
+import warnings
 from pathlib import Path
 from typing import Callable
 
 import pandas as pd
 import torch
-from PIL import Image, ImageOps
+from PIL import Image, ImageFile, ImageOps, UnidentifiedImageError
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
@@ -17,6 +18,7 @@ from scripts.config import TrainConfig
 
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_STD = (0.229, 0.224, 0.225)
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 
 class PadToSquare:
@@ -86,8 +88,12 @@ class DocumentDataset(Dataset[tuple[torch.Tensor, int | str]]):
 
         row = self.frame.iloc[index]
         path = self._resolve_path(str(row["filename"]))
-        with Image.open(path) as handle:
-            image = ImageOps.exif_transpose(handle).convert("RGB")
+        try:
+            with Image.open(path) as handle:
+                image = ImageOps.exif_transpose(handle).convert("RGB")
+        except (OSError, UnidentifiedImageError) as error:
+            warnings.warn(f"Citra rusak diganti halaman putih: {path} ({error})", stacklevel=2)
+            image = Image.new("RGB", (224, 224), color="white")
         tensor = self.transform(image)
         target: int | str = str(row["id"]) if self.inference else int(row["label"])
         return tensor, target

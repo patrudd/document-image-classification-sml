@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 import os
 import random
+import warnings
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -20,7 +21,7 @@ import pandas as pd
 import seaborn as sns
 import torch
 import torch.nn as nn
-from PIL import Image, ImageOps
+from PIL import Image, ImageFile, ImageOps, UnidentifiedImageError
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader, Dataset
@@ -28,6 +29,8 @@ from torchvision import transforms
 from torchvision.models import ConvNeXt_Tiny_Weights, convnext_tiny
 from torchvision.transforms import InterpolationMode
 from tqdm.auto import tqdm
+
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 
 @dataclass(slots=True)
@@ -200,8 +203,12 @@ class DocumentDataset(Dataset):
 
         row = self.frame.iloc[index]
         path = resolve_image_path(DATA_DIR, str(row["filename"]))
-        with Image.open(path) as handle:
-            image = ImageOps.exif_transpose(handle).convert("RGB")
+        try:
+            with Image.open(path) as handle:
+                image = ImageOps.exif_transpose(handle).convert("RGB")
+        except (OSError, UnidentifiedImageError) as error:
+            warnings.warn(f"Citra rusak diganti halaman putih: {path} ({error})", stacklevel=2)
+            image = Image.new("RGB", (CFG.image_size, CFG.image_size), color="white")
         tensor = self.transform(image)
         target = str(row["id"]) if self.inference else int(row["label"])
         return tensor, target
