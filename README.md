@@ -36,7 +36,7 @@ document-image-classification/
 ├── requirements.txt
 ├── .gitignore
 ├── data/                         # tidak di-commit
-├── checkpoints/                  # tidak di-commit
+├── models/                       # checkpoint besar tidak di-commit
 ├── notebooks/
 │   ├── 01_end_to_end_kaggle.py
 │   └── 01_end_to_end_kaggle.ipynb    # versi tereksekusi
@@ -67,7 +67,26 @@ Di Kaggle Notebook, gunakan **Add Input → Competition Data**. Kode otomatis me
 2. `/kaggle/input/competitions/document-image-classification-sd234504`
 3. `data/` untuk eksekusi lokal
 
-Untuk lokal, letakkan `train.csv`, `test.csv`, `sample_submission.csv`, folder `train/`, dan folder `test/` di `data/`. Dataset dan checkpoint sengaja diabaikan Git agar mematuhi aturan tugas.
+Untuk lokal, letakkan `train.csv`, `test.csv`, `sample_submission.csv`, folder `train/`, dan folder `test/` di `data/`. Dataset dan checkpoint model sengaja diabaikan Git agar mematuhi aturan tugas.
+
+## Pemetaan workflow tutorial Tugas 1
+
+Contoh Tugas 1 memisahkan workflow menjadi `01_eda.ipynb`,
+`02_modeling.ipynb`, dan `03_submission.ipynb`. Pada repository ini ketiga tahap
+tersebut disatukan secara berurutan dalam
+`notebooks/01_end_to_end_kaggle.ipynb` agar **Save Version** Kaggle dapat
+menjalankan eksperimen dari awal sampai menghasilkan submission dalam satu run:
+
+| Tahap contoh | Implementasi pada notebook ini |
+|---|---|
+| EDA | pemeriksaan CSV, label, distribusi kelas, dan contoh citra |
+| Modeling | stratified split, transform, ConvNeXt-Tiny, training, dan validasi |
+| Submission | inferensi test, validasi format `id,label`, lalu ekspor CSV |
+
+Strukturnya tetap mengikuti prinsip tutorial: notebook untuk eksperimen,
+`scripts/` untuk kode reusable, `models/` untuk artefak model, `submissions/`
+untuk prediksi, dan `reports/figures/` untuk visualisasi. Perbedaan algoritma
+disengaja karena Tugas 2 mewajibkan PyTorch dan memperbolehkan neural network.
 
 ## Menjalankan secara lokal
 
@@ -76,12 +95,12 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 python -m scripts.train --data-dir data --epochs 8 --batch-size 32
-python -m scripts.predict --data-dir data --checkpoint checkpoints/convnext_tiny_best.pt
+python -m scripts.predict --data-dir data --checkpoint models/convnext_tiny_best.pt
 ```
 
 Output penting:
 
-- `checkpoints/convnext_tiny_best.pt`: bobot model terbaik + konfigurasi + riwayat training.
+- `models/convnext_tiny_best.pt`: bobot model terbaik + konfigurasi + riwayat training.
 - `reports/validation_metrics.json`: konfigurasi hasil, classification report, dan learning history.
 - `reports/figures/confusion_matrix.png`: pola prediksi benar dan pasangan kelas yang tertukar.
 - `reports/figures/learning_curves.png`: perbandingan loss/accuracy train dan validation.

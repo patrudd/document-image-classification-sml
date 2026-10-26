@@ -12,7 +12,7 @@ class TrainConfig:
     """Store reproducible experiment settings in one serializable object."""
 
     data_dir: Path = Path("data")
-    output_dir: Path = Path("checkpoints")
+    output_dir: Path = Path("models")
     model_name: str = "convnext_tiny"
     num_classes: int = 16
     image_size: int = 224

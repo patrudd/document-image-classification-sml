@@ -4,8 +4,10 @@ data/*
 *.zip
 
 # Checkpoint/model besar
-checkpoints/*
-!checkpoints/.gitkeep
+models/*
+!models/.gitkeep
+checkpoints/
+checkpoint/
 *.pt
 *.pth
 

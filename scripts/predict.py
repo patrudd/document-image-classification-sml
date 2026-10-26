@@ -19,7 +19,7 @@ def parse_args() -> argparse.Namespace:
     """Parse checkpoint, data, and output locations."""
 
     parser = argparse.ArgumentParser(description="Create Kaggle submission")
-    parser.add_argument("--checkpoint", type=Path, default=Path("checkpoints/convnext_tiny_best.pt"))
+    parser.add_argument("--checkpoint", type=Path, default=Path("models/convnext_tiny_best.pt"))
     parser.add_argument("--data-dir", type=Path, default=None)
     parser.add_argument("--output", type=Path, default=Path("submissions/submission_convnext.csv"))
     parser.add_argument("--batch-size", type=int, default=64)
