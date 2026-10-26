@@ -26,4 +26,3 @@ def parameter_groups(model: nn.Module, backbone_lr: float, head_lr: float) -> li
         {"params": backbone_params, "lr": backbone_lr},
         {"params": head_params, "lr": head_lr},
     ]
-

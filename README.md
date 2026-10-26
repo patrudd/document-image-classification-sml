@@ -94,4 +94,3 @@ Catat validation accuracy, konfigurasi, public score, dan nama file setiap submi
 ## Reproducibility dan batasan
 
 Seed default adalah 42. PyTorch/CUDA tetap dapat memiliki sedikit variasi numerik. Bobot pretrained berasal dari ImageNet, bukan dari test set kompetisi. Hasil leaderboard belum dicantumkan karena belum ada training dan submission yang selesai dijalankan pada data kompetisi.
-

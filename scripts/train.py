@@ -93,4 +93,3 @@ def _class_names(frame: pd.DataFrame) -> list[str]:
 
 if __name__ == "__main__":
     main()
-

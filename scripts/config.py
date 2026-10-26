@@ -35,4 +35,3 @@ class TrainConfig:
         payload["data_dir"] = str(self.data_dir)
         payload["output_dir"] = str(self.output_dir)
         return payload
-

@@ -169,4 +169,3 @@ def build_test_loader(frame: pd.DataFrame, config: TrainConfig) -> DataLoader:
         pin_memory=torch.cuda.is_available(),
         persistent_workers=config.num_workers > 0,
     )
-

@@ -454,4 +454,3 @@ display(submission["label"].value_counts().sort_index().rename("count").to_frame
 # - Indikasi overfitting: bandingkan jarak kurva train vs validation.
 # - Public score: isi hanya setelah `submission_convnext_tiny.csv` dinilai Kaggle.
 # - Private score: belum tersedia sebelum kompetisi berakhir.
-

@@ -128,4 +128,3 @@ def fit(
                 print(f"Early stopping: tidak membaik selama {patience} epoch.")
                 break
     return history
-
