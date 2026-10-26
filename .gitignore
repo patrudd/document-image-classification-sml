@@ -1,0 +1,29 @@
+# Dataset dan arsip kompetisi
+data/*
+!data/.gitkeep
+*.zip
+
+# Checkpoint/model besar
+checkpoints/*
+!checkpoints/.gitkeep
+*.pt
+*.pth
+
+# Python/Jupyter
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+.env
+
+# Output lokal
+reports/figures/*.png
+submissions/*.csv
+!reports/figures/.gitkeep
+!submissions/.gitkeep
+
+# OS/editor
+.DS_Store
+.vscode/
+

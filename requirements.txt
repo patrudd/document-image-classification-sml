@@ -1,0 +1,11 @@
+torch>=2.2,<3
+torchvision>=0.17,<1
+pandas>=2.0,<3
+numpy>=1.26,<3
+scikit-learn>=1.4,<2
+Pillow>=10,<13
+matplotlib>=3.8,<4
+seaborn>=0.13,<1
+tqdm>=4.66,<5
+PyYAML>=6,<7
+
