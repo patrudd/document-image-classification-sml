@@ -37,7 +37,7 @@ class Config:
     seed: int = 42
     num_classes: int = 16
     image_size: int = 224
-    batch_size: int = 64
+    batch_size: int = 32
     epochs: int = 8
     backbone_lr: float = 1e-4
     head_lr: float = 5e-4
@@ -282,9 +282,6 @@ optimizer = torch.optim.AdamW(
     ],
     weight_decay=CFG.weight_decay,
 )
-if torch.cuda.device_count() > 1:
-    print(f"Menggunakan {torch.cuda.device_count()} GPU dengan DataParallel.")
-    model = nn.DataParallel(model)
 scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=CFG.epochs)
 scaler = torch.amp.GradScaler("cuda", enabled=DEVICE.type == "cuda")
 CHECKPOINT_PATH = WORK_DIR / "convnext_tiny_best.pt"
