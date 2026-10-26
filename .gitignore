@@ -21,6 +21,8 @@ venv/
 reports/figures/*.png
 submissions/*.csv
 !reports/figures/.gitkeep
+!reports/figures/confusion_matrix.png
+!reports/figures/learning_curves.png
 !submissions/.gitkeep
 
 # OS/editor

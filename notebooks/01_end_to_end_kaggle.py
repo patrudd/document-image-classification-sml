@@ -464,11 +464,10 @@ display(submission["label"].value_counts().sort_index().rename("count").to_frame
 # %% [markdown]
 # ## Kesimpulan eksperimen
 #
-# Isi setelah run selesai:
-#
-# - Validation accuracy terbaik: lihat output dan `validation_metrics.json`.
-# - Kelas yang paling sering tertukar: baca confusion matrix, khususnya form–questionnaire,
-#   scientific_publication–scientific_report, dan letter–memo.
-# - Indikasi overfitting: bandingkan jarak kurva train vs validation.
-# - Public score: isi hanya setelah `submission_convnext_tiny.csv` dinilai Kaggle.
-# - Private score: belum tersedia sebelum kompetisi berakhir.
+# - Validation accuracy terbaik adalah **0,85836** pada epoch 8.
+# - Public leaderboard accuracy adalah **0,86407**.
+# - Train accuracy 0,9917 dibanding validation accuracy 0,8584 menunjukkan model
+#   mulai overfit, tetapi validation loss dan accuracy terbaik tetap terjadi pada epoch 8.
+# - Kelas dengan F1 terendah adalah `scientific_report` (0,6944) dan `form` (0,7106).
+# - Public score yang dekat dengan validation accuracy menunjukkan holdout stratified
+#   cukup representatif. Private score belum tersedia sebelum kompetisi berakhir.
