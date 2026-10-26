@@ -125,6 +125,10 @@ def resolve_image_path(data_dir: Path, filename: str) -> Path:
 
     raw = Path(filename)
     candidates = [data_dir / raw, data_dir / raw.name]
+    if raw.parts:
+        # Kaggle mounts this competition as train/train/... and test/test/...
+        # while the CSV already starts with train/ or test/.
+        candidates.append(data_dir / raw.parts[0] / raw)
     if len(raw.parts) > 1:
         candidates.append(data_dir / Path(*raw.parts[1:]))
     for candidate in candidates:

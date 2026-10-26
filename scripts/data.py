@@ -70,6 +70,10 @@ class DocumentDataset(Dataset[tuple[torch.Tensor, int | str]]):
 
         raw = Path(filename)
         candidates = [self.data_dir / raw, self.data_dir / raw.name]
+        if raw.parts:
+            # Kaggle mounts this competition as train/train/... and test/test/...
+            # while the CSV already starts with train/ or test/.
+            candidates.append(self.data_dir / raw.parts[0] / raw)
         if len(raw.parts) > 1:
             candidates.append(self.data_dir / Path(*raw.parts[1:]))
         for candidate in candidates:
