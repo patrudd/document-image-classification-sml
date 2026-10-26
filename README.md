@@ -63,7 +63,7 @@ document-image-classification/
 
 ## Data
 
-Kompetisi: `document-image-classification-sd234504` (private competition).
+Kompetisi: [`document-image-classification-sd234504`](https://www.kaggle.com/t/ec93bc56cc9842959bb6728723d23d29) (private competition).
 
 Di Kaggle Notebook, gunakan **Add Input → Competition Data**. Kode otomatis mencari:
 
@@ -95,11 +95,11 @@ disengaja karena Tugas 2 mewajibkan PyTorch dan memperbolehkan neural network.
 ## Menjalankan secara lokal
 
 ```bash
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-python -m scripts.train --data-dir data --epochs 8 --batch-size 32
-python -m scripts.predict --data-dir data --checkpoint models/convnext_tiny_best.pt
+python3 -m scripts.train --data-dir data --epochs 8 --batch-size 32
+python3 -m scripts.predict --data-dir data --checkpoint models/convnext_tiny_best.pt
 ```
 
 Output penting:
@@ -170,5 +170,7 @@ Seed default adalah 42. PyTorch/CUDA tetap dapat memiliki sedikit variasi numeri
 Bobot pretrained berasal dari ImageNet, bukan dari test set kompetisi. Test set
 Kaggle hanya digunakan untuk inferensi akhir dan tidak pernah digunakan untuk
 pemilihan model atau hyperparameter. Notebook yang disimpan di repository sudah
-dieksekusi penuh, sedangkan dataset, checkpoint 106 MB, dan submission CSV tidak
-di-commit untuk mematuhi ketentuan ukuran dan kerahasiaan kompetisi.
+dieksekusi penuh. Dataset tidak di-commit, checkpoint 106 MiB disimpan sebagai
+aset GitHub Release, dan submission CSV terverifikasi disimpan di `submissions/`.
+Pemisahan ini menjaga repository tetap ringan tanpa menghilangkan artefak yang
+diperlukan untuk reproduksi.

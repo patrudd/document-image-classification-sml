@@ -10,7 +10,7 @@ Checkpoint tersedia sebagai aset pada
 Setelah diunduh, letakkan file di `models/convnext_tiny_best.pt`, lalu jalankan:
 
 ```bash
-python -m scripts.predict \
+python3 -m scripts.predict \
   --data-dir data \
   --checkpoint models/convnext_tiny_best.pt
 ```
